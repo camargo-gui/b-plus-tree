@@ -199,7 +199,7 @@ public class BPlusTree {
         return aux;
     }
 
-    public void excluirIndices(int info){
+    private void excluirIndices(int info){
         No aux = raiz;
         while(aux != null && !aux.ehFolha()){
             int pos = aux.procurarPosicao(info);
@@ -211,7 +211,7 @@ public class BPlusTree {
     }
 
 
-    public int localizarSubD(No no, int pos){
+    private int localizarSubD(No no, int pos){
         no = no.getvLig(pos);
         while(!no.ehFolha()){
             no = no.getvLig(0);
@@ -220,7 +220,7 @@ public class BPlusTree {
     }
 
 
-    public void excluirNaoFolha(No no, int info){
+    private void excluirNaoFolha(No no, int info){
         int pos = no.procurarPosicao(info) - 1;
         no.setvInfo(pos, localizarSubD(no, pos + 1));
     }
@@ -242,7 +242,7 @@ public class BPlusTree {
         excluirIndices(info);
     }
 
-    public void rebalancear(No folha){
+    private void rebalancear(No folha){
         No irmaoE = null, irmaoD = null;
         No pai = localizarPai(folha);
         int posPai = pai.procurarPosicao(folha.getvInfo(0));
@@ -272,7 +272,7 @@ public class BPlusTree {
         }
     }
 
-    public void redistribuirDireita(No no, No irmaoD, No pai, int posPai){
+    private void redistribuirDireita(No no, No irmaoD, No pai, int posPai){
         no.setvInfo(no.getTl(), pai.getvInfo(posPai));
         no.setTl(no.getTl()+1);
         no.setvLig(no.getTl(), irmaoD.getvLig(0));
@@ -284,7 +284,7 @@ public class BPlusTree {
             pai.setvInfo(posPai, irmaoD.getvInfo(0));
     }
 
-    public void redistribuirEsquerda(No no, No irmaoE, No pai, int posPai){
+    private void redistribuirEsquerda(No no, No irmaoE, No pai, int posPai){
         if(no.ehFolha()){
             pai.setvInfo(posPai-1, irmaoE.getvInfo(irmaoE.getTl()-1));
         }
@@ -301,14 +301,14 @@ public class BPlusTree {
         irmaoE.setTl(irmaoE.getTl()-1);
     }
 
-    public void concatena(No no, No irmaoE, No irmaoD, No pai, int posPai){
+    private void concatena(No no, No irmaoE, No irmaoD, No pai, int posPai){
         if(irmaoD != null)
             concatenaDireita(no, irmaoD, pai, posPai);
         else
             concatenaEsquerda(no, irmaoE, pai, posPai);
     }
 
-    public void concatenaDireita(No no, No irmaoD, No pai, int posPai){
+    private void concatenaDireita(No no, No irmaoD, No pai, int posPai){
         if(!no.ehFolha()){
             irmaoD.remanejar(0);
             irmaoD.setvInfo(0, pai.getvInfo(posPai));
@@ -332,7 +332,7 @@ public class BPlusTree {
         pai.setTl(pai.getTl()-1);
     }
 
-    public void concatenaEsquerda(No no, No irmaoE, No pai, int posPai){
+    private void concatenaEsquerda(No no, No irmaoE, No pai, int posPai){
         if(!no.ehFolha()){
             irmaoE.setvInfo(irmaoE.getTl(), pai.getvInfo(posPai-1));
             irmaoE.setTl(irmaoE.getTl()+1);
