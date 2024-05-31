@@ -2,7 +2,7 @@ package BPlusTree;
 
 public class No {
 
-    public static final int N = 4;
+    public static final int N = 3;
 
     public static final int min = (int) (Math.ceil((double)N/2)-1);
     private int vInfo[];
